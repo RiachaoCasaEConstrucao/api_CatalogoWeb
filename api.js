@@ -5,9 +5,9 @@ const cors = require("cors");
 const app = express();
 
 const allowedOrigins = [
-  "https://catalogoriachao-production.up.railway.app",
   "http://localhost:3001",
   "http://localhost:3000",
+  "https://catalogoweb-production.up.railway.app"
 ];
 
 app.use(
@@ -73,48 +73,9 @@ app.get('/carrinho', async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 });
-app.post("/carrinho", async (req, res) => {
-  try {
-    const { produto_id } = req.body;
-    const usuario_id = 1;
-    await db.query(
-      "INSERT INTO carrinho ( usuario_id, produto_id) VALUES (?, ?)",
-      [usuario_id, produto_id]
-    );
-    res.status(201).json({ message: "Produto adicionado à lista com sucesso" });
-  } catch (error) {
-    console.error("Erro ao adicionar produto à lista:", error);
-    res.status(500).json({ error: "Erro interno do servidor" });
-  }
-});
-
-app.get("/usuarios", async (req, res) => {
-  try {
-    const [results] = await db.query("SELECT * FROM usuarios");
-    res.json(results);
-  } catch (error) {
-    console.error("Erro ao buscar carrinho:", error);
-    res.status(500).json({ error: "Erro interno do servidor" });
-  }
-});
-
-app.post("/usuarios", async (req, res) => {
-  try {
-    const { nome, email, senha } = req.body;
-    const tipo_usuario = "cliente";
-    await db.query(
-      "INSERT INTO usuarios (nome, email, senha, tipo_usuario) VALUES (?,?,?,?)",
-      [nome, email, senha, tipo_usuario]
-    );
-    res.status(201).json({ message: "Usuário cadastrado com sucesso" });
-  } catch (error) {
-    console.error("Erro ao cadastrar usuário:", error);
-    res.status(500).json({ error: "Erro interno do servidor" });
-  }
-});
 
 // Iniciar o servidor
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
